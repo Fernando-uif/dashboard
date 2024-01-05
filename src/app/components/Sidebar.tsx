@@ -1,21 +1,33 @@
 "use client";
-import { IoBrowsersOutline, IoCalculator, IoLogoReact } from "react-icons/io5";
+import {
+  IoBrowsersOutline,
+  IoCalculator,
+  IoFootball,
+  IoLogoReact,
+} from "react-icons/io5";
 import Image from "next/image";
 import Link from "next/link";
 import SidebarMenuItem from "./SidebarMenuItem";
 
 const menuItems = [
   {
-    path: "/dashboard/counter",
+    path: "/dashboard/main",
+
     icon: <IoBrowsersOutline size={40} />,
     title: "Dashboard",
     subTitle: "Visualizacion",
   },
   {
-    path: "/dashboard/main",
+    path: "/dashboard/counter",
     icon: <IoCalculator size={40} />,
     title: "Counter",
     subTitle: "Contador Client Side",
+  },
+  {
+    path: "/dashboard/pokemons",
+    icon: <IoFootball size={40} />,
+    title: "Pokemons",
+    subTitle: "Pokemons Estaticos",
   },
 ];
 
