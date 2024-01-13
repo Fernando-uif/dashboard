@@ -1,24 +1,37 @@
 import { Pokemon } from "@/pokemons";
 import { Metadata } from "next";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: { id: string };
 }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id, name } = await getPokemon(params.id);
+  try {
+    const { id, name } = await getPokemon(params.id);
 
-  return {
-    title: `#${id}- ${name}`,
-    description: `Pagina del pokemon ${name}`,
-  };
+    return {
+      title: `#${id}- ${name}`,
+      description: `Pagina del pokemon ${name}`,
+    };
+  } catch (error) {
+    return {
+      title: "pokemon",
+      description: "pokemon",
+    };
+  }
 }
 const getPokemon = async (id: string): Promise<Pokemon> => {
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
-    cache: "force-cache",
-  });
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
+      cache: "force-cache",
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    notFound();
+  }
 };
 
 export default async function PokemonPage({ params }: Props) {
@@ -72,7 +85,11 @@ export default async function PokemonPage({ params }: Props) {
             <p className="text-sm text-gray-600">Regular Sprites</p>
             <div className="flex justify-center">
               <Image
-                src={pokemon?.sprites?.front_default ||pokemon?.sprites?.front_shiny ||'no hay'}
+                src={
+                  pokemon?.sprites?.front_default ||
+                  pokemon?.sprites?.front_shiny ||
+                  "no hay"
+                }
                 width={100}
                 height={100}
                 alt={`sprite ${pokemon.name}`}
