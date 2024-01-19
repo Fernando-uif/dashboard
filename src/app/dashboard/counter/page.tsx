@@ -9,7 +9,7 @@ export default function CounterPage() {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
       <span>Productos en carrito de compra</span>
-      <Counter />
+      <Counter value={20}/>
     </div>
   );
 }
