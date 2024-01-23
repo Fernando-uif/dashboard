@@ -1,17 +1,37 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/store";
-import { addOne, initCounterState, resetCount, substractOne } from "@/store/counter/counterSlice";
+import {
+  addOne,
+  initCounterState,
+  resetCount,
+  substractOne,
+} from "@/store/counter/counterSlice";
 import { useEffect } from "react";
+
+const getApiConuter = async (): Promise<any> => {
+  const response = await fetch("/api/counter");
+  const data = await response.json();
+  console.log(data);
+  return data;
+};
 
 export const Counter = ({ value }: { value: number }) => {
   const count = useAppSelector((state) => state.counter.count);
   const dispatch = useAppDispatch();
-  useEffect(() => {
+  
+  // useEffect(() => {
+  //   dispatch(initCounterState(value));
+  //   return () => {};
+  // }, [dispatch, value]);
 
-    dispatch(initCounterState(value));
+  useEffect(() => {
+    getApiConuter().then((resp) => {
+      dispatch(initCounterState(resp.count));
+    });
+
     return () => {};
-  }, [dispatch, value]);
+  }, [dispatch]);
 
   return (
     <>
